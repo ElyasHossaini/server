@@ -9,12 +9,12 @@ function buildSubject(topic) {
 function parseAllowedOrigins() {
   return (process.env.ALLOWED_ORIGINS ?? '')
     .split(',')
-    .map((s) => s.trim())
+    .map((s) => s.trim().replace(/\/$/, ''))
     .filter(Boolean)
 }
 
 function setCors(req, res) {
-  const origin = req.headers.origin
+  const origin = req.headers.origin?.replace(/\/$/, '')
   const allowedOrigins = parseAllowedOrigins()
 
   if (origin && allowedOrigins.includes(origin)) {
